@@ -99,9 +99,23 @@ Full structural review of a branch diff with blast-radius analysis, test coverag
 - **Parser** (`server/parser.py`): Tree-sitter multi-language AST parser. Extracts structural nodes and relationships.
 - **Graph** (`server/graph.py`): SQLite-backed knowledge graph with NetworkX for traversal queries.
 - **Incremental** (`server/incremental.py`): Git-aware delta detection. Re-parses only changed files + their dependents.
-- **MCP Server** (`server/main.py`): Exposes 6 tools to Claude Code via the Model Context Protocol.
+- **MCP Server** (`server/main.py`): Exposes 8 tools to Claude Code via the Model Context Protocol.
 - **Skills**: Three review workflows (`build-graph`, `review-delta`, `review-pr`).
 - **Hooks**: Auto-updates the graph on file edits and git commits.
+- **Token optimization**: `get_docs_section` tool serves only the exact section Claude needs from `references/LLM-OPTIMIZED-REFERENCE.md` — 90%+ token savings on usage questions.
+
+## Full Documentation
+
+See the [docs/](docs/) folder:
+- [Usage Guide](docs/USAGE.md) — Installation and workflow
+- [Commands Reference](docs/COMMANDS.md) — All MCP tools, skills, and CLI commands
+- [Features & Changelog](docs/FEATURES.md) — What's included
+- [Architecture](docs/architecture.md) — System design and data flow
+- [Schema](docs/schema.md) — Graph node/edge types and SQLite tables
+- [Troubleshooting](docs/TROUBLESHOOTING.md) — Common issues and fixes
+- [LLM-Optimized Reference](docs/LLM-OPTIMIZED-REFERENCE.md) — Token-optimized reference used by Claude Code
+- [Roadmap](docs/ROADMAP.md) — Planned features
+- [Legal & Privacy](docs/LEGAL.md)
 
 ## Graph Schema
 

@@ -6,6 +6,8 @@ description: Review a PR or branch diff using the knowledge graph for full struc
 
 Perform a comprehensive code review of a pull request or branch diff using the knowledge graph.
 
+**Token optimization:** Before starting, call `get_docs_section_tool(section_name="review-pr")` for the optimized workflow. Never include full files unless explicitly asked.
+
 ## Steps
 
 1. **Identify the changes** for the PR:

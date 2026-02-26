@@ -6,6 +6,8 @@ description: Review only changes since last commit using impact analysis. Token-
 
 Perform a focused, token-efficient code review of only the changed code and its blast radius.
 
+**Token optimization:** Before starting, call `get_docs_section_tool(section_name="review-delta")` for the optimized workflow. Use ONLY changed nodes + 2-hop neighbors in context.
+
 ## Steps
 
 1. **Ensure the graph is current** by calling `build_or_update_graph_tool()` (incremental update).

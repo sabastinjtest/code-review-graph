@@ -13,6 +13,7 @@ from fastmcp import FastMCP
 from .tools import (
     build_or_update_graph,
     embed_graph,
+    get_docs_section,
     get_impact_radius,
     get_review_context,
     list_graph_stats,
@@ -186,6 +187,24 @@ def list_graph_stats_tool(
         repo_root: Repository root path. Auto-detected if omitted.
     """
     return list_graph_stats(repo_root=repo_root)
+
+
+@mcp.tool()
+def get_docs_section_tool(
+    section_name: str,
+) -> dict:
+    """Get a specific section from the LLM-optimized documentation reference.
+
+    Returns only the requested section content for minimal token usage.
+    Use this before answering any user question about the plugin.
+
+    Available sections: usage, review-delta, review-pr, commands, legal,
+    watch, embeddings, languages, troubleshooting.
+
+    Args:
+        section_name: The section to retrieve (e.g. "review-delta", "usage").
+    """
+    return get_docs_section(section_name=section_name)
 
 
 def main() -> None:

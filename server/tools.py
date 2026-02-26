@@ -692,3 +692,58 @@ def embed_graph(repo_root: str | None = None) -> dict[str, Any]:
     finally:
         emb_store.close()
         store.close()
+
+
+# ---------------------------------------------------------------------------
+# Tool 8: get_docs_section
+# ---------------------------------------------------------------------------
+
+# Search paths for the LLM-optimized reference file
+_REFERENCE_PATHS = [
+    "references/LLM-OPTIMIZED-REFERENCE.md",
+    "docs/LLM-OPTIMIZED-REFERENCE.md",
+]
+
+
+def get_docs_section(section_name: str) -> dict[str, Any]:
+    """Return a specific section from the LLM-optimized reference.
+
+    Used by skills and Claude Code to load only the exact documentation
+    section needed, keeping token usage minimal (90%+ savings).
+
+    Args:
+        section_name: Exact section name. One of: usage, review-delta,
+                      review-pr, commands, legal, watch, embeddings,
+                      languages, troubleshooting.
+
+    Returns:
+        The section content, or an error if not found.
+    """
+    import re as _re
+
+    for rel_path in _REFERENCE_PATHS:
+        # Try relative to repo root
+        _, root = _get_store()
+        full_path = root / rel_path
+        if full_path.exists():
+            content = full_path.read_text()
+            match = _re.search(
+                rf'<section name="{_re.escape(section_name)}">(.*?)</section>',
+                content,
+                _re.DOTALL | _re.IGNORECASE,
+            )
+            if match:
+                return {
+                    "status": "ok",
+                    "section": section_name,
+                    "content": match.group(1).strip(),
+                }
+
+    available = [
+        "usage", "review-delta", "review-pr", "commands",
+        "legal", "watch", "embeddings", "languages", "troubleshooting",
+    ]
+    return {
+        "status": "not_found",
+        "error": f"Section '{section_name}' not found. Available: {', '.join(available)}",
+    }
