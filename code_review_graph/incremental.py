@@ -480,9 +480,8 @@ def incremental_update(
                     logger.warning("Error parsing %s: %s", rel_path, error)
                     errors.append({"file": rel_path, "error": error})
                     continue
-                full_path = repo_root / rel_path
                 store.store_file_nodes_edges(
-                    str(full_path), nodes, edges, fhash,
+                    str(repo_root / rel_path), nodes, edges, fhash,
                 )
                 total_nodes += len(nodes)
                 total_edges += len(edges)
